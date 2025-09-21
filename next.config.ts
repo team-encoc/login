@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
             key: "Access-Control-Allow-Headers",
             value: "Content-Type, Authorization",
           },
+          // Mixed Content 문제 해결을 위한 CSP 헤더
+          {
+            key: "Content-Security-Policy",
+            value: "upgrade-insecure-requests; connect-src 'self' http://54.180.100.99:8080 https://54.180.100.99:8080;",
+          },
         ],
       },
     ];

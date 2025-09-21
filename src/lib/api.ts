@@ -2,7 +2,10 @@ import { LoginRequest, RegisterRequest, LoginResponse, ApiResponse, LoginApiResp
 import { generateRandomName, generateRandomBirthDate, generateRandomPhone, generateRandomGender } from '@/utils/randomData';
 
 // BlueSonix 서버 API URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://54.180.100.99:8080';
+// 배포 환경에서는 프록시 사용, 개발 환경에서는 직접 호출
+const API_BASE_URL = typeof window !== 'undefined' && window.location.protocol === 'https:' 
+  ? '/api/proxy'  // HTTPS 배포 환경에서는 프록시 사용
+  : process.env.NEXT_PUBLIC_API_URL || 'http://54.180.100.99:8080';  // 개발 환경에서는 직접 호출
 
 class ApiError extends Error {
   constructor(message: string, public status: number) {
