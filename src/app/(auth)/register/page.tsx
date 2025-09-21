@@ -57,6 +57,7 @@ export default function RegisterPage() {
         birthDate: data.birthDate || undefined,
         name: data.name || undefined,
         phone: data.phone || undefined,
+        gender: data.gender ? (data.gender.toUpperCase() as "MALE" | "FEMALE") : undefined,
       });
     } catch (error) {
       // 에러는 AuthContext에서 toast로 처리

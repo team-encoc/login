@@ -1,4 +1,4 @@
-import { LoginRequest, RegisterRequest, LoginResponse, ApiResponse } from '@/types/auth';
+import { LoginRequest, RegisterRequest, LoginResponse, ApiResponse, LoginApiResponse } from '@/types/auth';
 import { generateRandomName, generateRandomBirthDate, generateRandomPhone, generateRandomGender } from '@/utils/randomData';
 
 // BlueSonix 서버 API URL
@@ -69,19 +69,19 @@ export const authApi = {
   },
 
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {
-    const response = await apiRequest<{ accessToken: string; userProfile: any }>('/api/auth/login', {
+    const response = await apiRequest<LoginApiResponse>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
 
     // BlueSonix API 응답을 LoginResponse 형식으로 변환
     return {
-      loginType: response.userProfile.type as "default" | "kakao" | "google" | "naver",
+      loginType: response.userProfile.type,
       email: response.userProfile.email,
       name: response.userProfile.name,
       gender: response.userProfile.gender,
       birthDate: response.userProfile.birthDate,
-      phone: response.userProfile.phone,
+      phone: response.userProfile.phoneNumber,
       marketingAgreed: response.userProfile.marketingAgreed,
       token: response.accessToken,
       emailCertified: response.userProfile.emailCertification,

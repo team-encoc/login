@@ -94,7 +94,7 @@ export default function DashboardPage() {
                     <div className="text-sm">
                       <span className="font-medium">성별:</span>
                       <p className="text-gray-600">
-                        {user.gender === 'male' ? '남성' : '여성'}
+                        {user.gender === 'MALE' ? '남성' : '여성'}
                       </p>
                     </div>
                   )}

@@ -44,8 +44,33 @@ export interface AuthContextType {
   logout: () => void;
 }
 
+// BlueSonix API userProfile 구조
+export interface UserProfile {
+  id: number;
+  email: string;
+  name: string;
+  profileImage: string;
+  phoneNumber: string;
+  birthDate: string; // "1990-01-15" 형식
+  gender: "MALE" | "FEMALE";
+  address: string | null;
+  marketingAgreed: boolean;
+  emailCertification: boolean;
+  type: "default" | "kakao" | "google" | "naver";
+  role: "ADMIN" | "USER";
+  followingCount: number;
+  followerCount: number;
+  connectedDeviceId?: string | null;
+}
+
+// BlueSonix API 로그인 응답 구조
+export interface LoginApiResponse {
+  accessToken: string;
+  userProfile: UserProfile;
+}
+
 // BlueSonix API 응답 구조
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   code: number;
   message: string;
   value?: T;
