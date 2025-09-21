@@ -1,13 +1,20 @@
 export interface RegisterRequest {
+  // 필수 입력 필드
   email: string;
   password: string;
-  type?: "default" | "kakao" | "google" | "naver";
-  name?: string;
-  gender?: "male" | "female";
-  birthDate?: string; // YYMMDD 형식
-  phone?: string;
   marketingAgreed: boolean;
-  emailCertification?: boolean;
+  
+  // 선택적 입력 필드 (없으면 랜덤값 생성)
+  name?: string;
+  gender?: "MALE" | "FEMALE";
+  birthDate?: string; // YYYYMMDD 형식 (8자리)
+  phone?: string;
+  
+  // 시스템에서 처리하는 필드 (사용자 입력 불필요)
+  type?: "default" | "kakao" | "google" | "naver"; // 항상 "default"
+  profileImg?: string; // 항상 ""
+  emailCertification?: boolean; // 항상 false
+  role?: "ADMIN" | "USER"; // 항상 "USER"
 }
 
 export interface LoginRequest {
@@ -19,7 +26,7 @@ export interface LoginResponse {
   loginType: "default" | "kakao" | "google" | "naver";
   email: string;
   name: string | null;
-  gender: "male" | "female" | null;
+  gender: "MALE" | "FEMALE" | null;
   birthDate: string | null; // YYMMDD 형식
   phone: string | null;
   marketingAgreed: boolean;
@@ -33,6 +40,13 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
-  register: (data: RegisterRequest) => Promise<void>;
+  register: (data: RegisterRequest) => Promise<LoginResponse>;
   logout: () => void;
+}
+
+// BlueSonix API 응답 구조
+export interface ApiResponse<T = any> {
+  code: number;
+  message: string;
+  value?: T;
 }

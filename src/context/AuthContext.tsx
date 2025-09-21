@@ -39,13 +39,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const register = async (data: RegisterRequest) => {
+  const register = async (data: RegisterRequest): Promise<LoginResponse> => {
     try {
       setIsLoading(true);
-      await authApi.register(data);
+      // authApi.register가 이제 LoginResponse를 반환함 (자동 로그인)
+      const response = await authApi.register(data);
       
-      toast.success('회원가입이 완료되었습니다. 로그인해주세요.');
-      router.push('/login');
+      // 자동 로그인된 사용자 정보를 저장
+      setUser(response);
+      saveAuthToSession(response);
+      
+      toast.success('회원가입 및 로그인이 완료되었습니다.');
+      router.push('/dashboard');
+      
+      return response;
     } catch (error) {
       const message = error instanceof Error ? error.message : '회원가입에 실패했습니다.';
       toast.error(message);
